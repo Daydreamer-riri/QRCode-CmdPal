@@ -13,7 +13,7 @@ public partial class QRCodeExtensionCommandsProvider : CommandProvider
 
     public QRCodeExtensionCommandsProvider()
     {
-        DisplayName = "QR Code for CmdPal";
+        DisplayName = "QR Code";
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
         _commands = [
             new CommandItem(new QRCodeExtensionPage()) { Title = DisplayName },
