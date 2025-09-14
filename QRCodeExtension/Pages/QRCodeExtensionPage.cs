@@ -16,7 +16,7 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
         Title = "QR Code";
         Name = "Open";
-        ShowDetails = true;
+        ShowDetails = false;
 
         allItems = [];
     }
@@ -29,17 +29,11 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage
     public override void UpdateSearchText(string oldSearch, string newSearch)
     {
         allItems = [
-            new ListItem(new ContentPage()
-            {
-
-            }
-            )
+            new ListItem(new DetailPage(newSearch))
             {
                 Title = newSearch,
-                Details = new Details()
-                {
-                    HeroImage = new IconInfo($"https://qrcode.show/{newSearch}")
-                }
+                Subtitle = $"Generate QR Code for \"{newSearch}\"",
+                Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png"),
             }
         ];
         RaiseItemsChanged();
