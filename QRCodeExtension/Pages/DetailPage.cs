@@ -8,16 +8,14 @@ namespace QRCodeExtension;
 
 public partial class DetailPage : ContentPage
 {
-    private string _content;
-    private string _urlQuery;
+    private readonly string _content;
 
     public DetailPage(string content)
     {
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
-        Title = "Markdown page";
+        Title = $"QR Code for \"{content}\"";
 
         _content = content;
-        _urlQuery = Uri.EscapeDataString(_content);
     }
 
     public override IContent[] GetContent()

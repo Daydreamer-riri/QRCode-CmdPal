@@ -23,11 +23,28 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage
 
     public override IListItem[] GetItems()
     {
+        if (allItems.Count == 0)
+        {
+            return [
+                new ListItem(new NoOpCommand())
+                {
+                    Title = "Type to generate QR Code",
+                    Subtitle = "Enter any text to generate its QR code",
+                    Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png"),
+                }
+            ];
+        }
         return [.. allItems];
     }
 
     public override void UpdateSearchText(string oldSearch, string newSearch)
     {
+        if (string.IsNullOrWhiteSpace(newSearch))
+        {
+            allItems = [];
+            RaiseItemsChanged();
+            return;
+        }
         allItems = [
             new ListItem(new DetailPage(newSearch))
             {
