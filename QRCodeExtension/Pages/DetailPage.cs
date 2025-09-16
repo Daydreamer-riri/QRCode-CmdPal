@@ -13,7 +13,7 @@ public partial class DetailPage : ContentPage
     public DetailPage(string content)
     {
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
-        Title = $"QR Code for \"{content}\"";
+        Title = $"QR Code";
 
         _content = content;
     }
@@ -32,7 +32,7 @@ public partial class DetailPage : ContentPage
     static private MarkdownContent BuildImageMarkdownContent(string content)
     {
         var urlQuery = Uri.EscapeDataString(content);
-        var imageUrl = $"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={urlQuery}";
+        var imageUrl = $"https://api.qrserver.com/v1/create-qr-code/?size=300x300&qzone=1&data={urlQuery}";
         var htmlContent = $"<p align=\"center\"><img src=\"{imageUrl}\" alt=\"{content}\"></p>";
         return new MarkdownContent(htmlContent);
     }
