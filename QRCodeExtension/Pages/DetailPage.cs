@@ -23,17 +23,20 @@ public partial class DetailPage : ContentPage
         {
             return
             [
-                new MarkdownContent($"## {_content}"),
-                BuildImageMarkdownContent(_content)
+                new MarkdownContent($$"""
+                > {{_content}}
+
+                {{BuildImageMarkdownContent(_content)}}
+                """),
             ];
         }
     }
 
-    static private MarkdownContent BuildImageMarkdownContent(string content)
+    static private string BuildImageMarkdownContent(string content)
     {
         var urlQuery = Uri.EscapeDataString(content);
         var imageUrl = $"https://api.qrserver.com/v1/create-qr-code/?size=300x300&qzone=1&data={urlQuery}";
         var htmlContent = $"<p align=\"center\"><img src=\"{imageUrl}\" alt=\"{content}\"></p>";
-        return new MarkdownContent(htmlContent);
+        return htmlContent;
     }
 }
