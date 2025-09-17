@@ -14,6 +14,7 @@ public partial class DetailPage : ContentPage
     {
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
         Title = $"QR Code";
+        Name = "Generate QR Code";
 
         _content = content;
     }
