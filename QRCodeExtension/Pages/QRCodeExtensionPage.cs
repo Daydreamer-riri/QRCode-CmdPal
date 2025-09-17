@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
+using QRCodeExtension.Helpers;
 
 namespace QRCodeExtension;
 
@@ -30,7 +31,7 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage
                 {
                     Title = "Type to generate QR Code",
                     Subtitle = "Enter any text to generate its QR code",
-                    Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png"),
+                    Icon = Icons.QRCode,
                 }
             ];
         }
@@ -50,7 +51,7 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage
             {
                 Title = newSearch,
                 Subtitle = $"Generate QR Code for \"{newSearch}\"",
-                Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png"),
+                Icon = Icons.QRCode,
             }
         ];
         RaiseItemsChanged();
