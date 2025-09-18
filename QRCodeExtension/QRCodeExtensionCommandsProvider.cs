@@ -4,19 +4,21 @@
 
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
+using QRCodeExtension.Helpers;
 
 namespace QRCodeExtension;
 
 public partial class QRCodeExtensionCommandsProvider : CommandProvider
 {
     private readonly ICommandItem[] _commands;
+    private readonly Storage _storage = new();
 
     public QRCodeExtensionCommandsProvider()
     {
         DisplayName = "QR Code";
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
         _commands = [
-            new CommandItem(new QRCodeExtensionPage()) { Title = DisplayName },
+            new CommandItem(new QRCodeExtensionPage(_storage)) { Title = DisplayName },
         ];
     }
 
