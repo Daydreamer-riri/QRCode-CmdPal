@@ -11,6 +11,5 @@ public partial class QRCodeListItem : ListItem
         Title = content;
         Subtitle = $"Generate QR Code for \"{content}\"";
         Icon = Icons.QRCode;
-        TextToSuggest = content;
     }
 }

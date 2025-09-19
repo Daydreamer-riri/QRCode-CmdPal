@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
@@ -15,7 +16,6 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage, IDisposable
 {
     private readonly Lock _sync = new();
     private IListItem[] allItems = [];
-    private List<ListItem> _historyItems = [];
     private readonly Storage _storage;
     public QRCodeExtensionPage(Storage storage)
     {
@@ -25,44 +25,28 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage, IDisposable
         ShowDetails = false;
         _storage = storage;
 
-        _storage.HistoryChanged += SettingsManagerOnHistoryChanged;
+        _storage.HistoryChanged += StorageOnHistoryChanged;
 
-        UpdateHistory();
         RequeryAndUpdateItems(SearchText);
     }
 
-    private void SettingsManagerOnHistoryChanged(object? sender, EventArgs e)
+    private void StorageOnHistoryChanged(object? sender, EventArgs e)
     {
-        UpdateHistory();
         RequeryAndUpdateItems(SearchText);
-    }
-
-    private void UpdateHistory()
-    {
-        List<ListItem> history = [];
-
-        if (_storage.HistoryItemCount > 0)
-        {
-            var items = _storage.HistoryItems;
-            for (var index = items.Count - 1; index >= 0; index--)
-            {
-                var historyItem = items[index];
-                history.Add(new QRCodeListItem(historyItem.SearchString, _storage));
-            }
-        }
-
-        lock (_sync)
-        {
-            _historyItems = history;
-        }
     }
 
     private void RequeryAndUpdateItems(string search)
     {
-        List<ListItem> historySnapshot;
+        List<QRCodeListItem> historySnapshot;
         lock (_sync)
         {
-            historySnapshot = _historyItems;
+            historySnapshot = [
+                .. _storage.HistoryItems
+            .Select(item =>
+                new QRCodeListItem(item.SearchString, _storage){ TextToSuggest = item.SearchString }
+            )
+            .Reverse()
+            ];
         }
 
         var items = Query(search ?? string.Empty, historySnapshot, _storage);
@@ -75,7 +59,7 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage, IDisposable
         RaiseItemsChanged(allItems.Length);
     }
 
-    private static IListItem[] Query(string query, List<ListItem> historySnapshot, Storage storage)
+    private static IListItem[] Query(string query, List<QRCodeListItem> historySnapshot, Storage storage)
     {
         ArgumentNullException.ThrowIfNull(query);
 
@@ -91,16 +75,16 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage, IDisposable
             var result = new QRCodeListItem(searchTerm, storage);
             results.Add(result);
         }
-        else
-        {
-            results.Add(new ListItem(new NoOpCommand())
-        {
-            Title = "Type to generate QR Code",
-            Subtitle = "Enter any text to generate its QR code",
-            Icon = Icons.QRCode,
-            TextToSuggest = string.Empty,
-        });
-        }
+        // else
+        // {
+        //     results.Add(new ListItem(new NoOpCommand())
+        //     {
+        //         Title = "Type to generate QR Code",
+        //         Subtitle = "Enter any text to generate its QR code",
+        //         Icon = Icons.QRCode,
+        //         TextToSuggest = string.Empty,
+        //     });
+        // }
 
         results.AddRange(filteredHistoryItems);
 
@@ -110,10 +94,7 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage, IDisposable
 
     public override IListItem[] GetItems()
     {
-        lock (_sync)
-        {
-            return allItems;
-        }
+        return allItems;
     }
 
     public override void UpdateSearchText(string oldSearch, string newSearch)
@@ -123,7 +104,7 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage, IDisposable
 
     public void Dispose()
     {
-        _storage.HistoryChanged -= SettingsManagerOnHistoryChanged;
+        _storage.HistoryChanged -= StorageOnHistoryChanged;
         GC.SuppressFinalize(this);
     }
 }
