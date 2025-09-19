@@ -15,7 +15,9 @@ public class Storage
 
     private readonly HistoryStore _history;
 
+#pragma warning disable CA1822 // Mark members as static
     public int HistoryItemCount => 50;
+#pragma warning restore CA1822 // Mark members as static
 
     public IReadOnlyList<HistoryItem> HistoryItems => _history.HistoryItems;
 
@@ -34,8 +36,15 @@ public class Storage
         return Path.Combine(directory, "qrcode_history.json");
     }
 
+    private HistoryItem _lastAddedItem = null!;
+
     public void AddHistoryItem(HistoryItem historyItem)
     {
+        if (historyItem == _lastAddedItem)
+        {
+            return;
+        }
+        _lastAddedItem = historyItem;
         try
         {
             _history.Add(historyItem);
