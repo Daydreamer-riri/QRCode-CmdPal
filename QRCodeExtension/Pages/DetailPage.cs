@@ -26,9 +26,11 @@ public partial class DetailPage : ContentPage
         return
         [
             new MarkdownContent($$"""
-                > {{_content}}
-
                 {{BuildImageMarkdownContent(_content)}}
+
+                <br>
+
+                {{_content}}
                 """),
         ];
     }
@@ -37,7 +39,7 @@ public partial class DetailPage : ContentPage
     {
         var urlQuery = Uri.EscapeDataString(content);
         var imageUrl = $"https://api.qrserver.com/v1/create-qr-code/?size=300x300&qzone=1&data={urlQuery}";
-        var htmlContent = $"<p align=\"center\"><img src=\"{imageUrl}\" alt=\"{content}\"></p>";
+        var htmlContent = $"<p align=\"center\" style=\"height: 300px;\"><img src=\"{imageUrl}\" alt=\"{content}\"></p>";
         return htmlContent;
     }
 

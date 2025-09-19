@@ -23,6 +23,12 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage, IDisposable
         Title = "QR Code";
         Name = "Open";
         ShowDetails = true;
+        EmptyContent = new CommandItem(new NoOpCommand())
+        {
+            Icon = Icon,
+            Title = "Type to generate QR Code",
+            Subtitle = "Enter any text to generate its QR code",
+        };
         _storage = storage;
 
         _storage.HistoryChanged += StorageOnHistoryChanged;
