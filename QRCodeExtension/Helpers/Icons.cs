@@ -16,4 +16,12 @@ public static class Icons
     /// qrcode outlined
     /// </summary>
     public static IconInfo QRCode { get; } = new("\uED14");
+
+    /// <summary>
+    /// Delete icon (trash can)
+    /// </summary>
+    public static IconInfo Delete { get; } = new("\uE74D");
+
+    public static IconInfo Info { get; } = new("\uE946");
+
 }

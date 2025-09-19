@@ -22,7 +22,7 @@ internal sealed partial class QRCodeExtensionPage : DynamicListPage, IDisposable
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
         Title = "QR Code";
         Name = "Open";
-        ShowDetails = false;
+        ShowDetails = true;
         _storage = storage;
 
         _storage.HistoryChanged += StorageOnHistoryChanged;

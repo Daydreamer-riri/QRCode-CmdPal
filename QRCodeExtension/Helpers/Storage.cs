@@ -36,18 +36,30 @@ public class Storage
         return Path.Combine(directory, "qrcode_history.json");
     }
 
-    private HistoryItem _lastAddedItem = null!;
+    private string _lastAddedItemContent = null!;
 
-    public void AddHistoryItem(HistoryItem historyItem)
+    public void AddHistoryItem(string searchString)
     {
-        if (historyItem == _lastAddedItem)
+        if (searchString == _lastAddedItemContent)
         {
             return;
         }
-        _lastAddedItem = historyItem;
+        _lastAddedItemContent = searchString;
         try
         {
-            _history.Add(historyItem);
+            _history.Add(new HistoryItem(searchString, DateTime.Now));
+        }
+        catch (Exception ex)
+        {
+            ExtensionHost.LogMessage(new LogMessage() { Message = ex.ToString() });
+        }
+    }
+
+    public void RemoveHistoryItem(string searchString)
+    {
+        try
+        {
+            _history.Remove(searchString);
         }
         catch (Exception ex)
         {

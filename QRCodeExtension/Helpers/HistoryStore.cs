@@ -54,6 +54,26 @@ internal sealed class HistoryStore
         Changed?.Invoke(this, EventArgs.Empty);
     }
 
+    public void Remove(string searchString)
+    {
+        ArgumentNullException.ThrowIfNull(searchString);
+
+        bool removed;
+        lock (_lock)
+        {
+            removed = _items.RemoveAll(i => i.SearchString == searchString) > 0;
+            if (removed)
+            {
+                SaveNoLock();
+            }
+        }
+
+        if (removed)
+        {
+            Changed?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
     public void SetCapacity(int capacity)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(capacity);

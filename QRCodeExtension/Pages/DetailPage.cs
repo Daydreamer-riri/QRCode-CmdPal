@@ -22,7 +22,7 @@ public partial class DetailPage : ContentPage
 
     public override IContent[] GetContent()
     {
-        _storage.AddHistoryItem(new HistoryItem(_content, DateTime.Now));
+        _storage.AddHistoryItem(_content);
         return
         [
             new MarkdownContent($$"""
