@@ -28,6 +28,10 @@ You can download the MSIX files from the [Releases](https://github.com/Daydreame
 
 Feel free to submit issues and enhancement requests!
 
+## Credits
+
+Special thanks to [goqr.me](https://goqr.me/api/) for providing the QR code generation API.
+
 ## License
 
 [MIT](./LICENSE) License © 2023 [Riri](https://github.com/Daydreamer-riri)
