@@ -11,7 +11,7 @@
   <Identity
     Name="Riri.QRCodeForCmdPal"
     Publisher="CN=4ABED957-26B2-4540-BC42-25782E221227"
-    Version="0.0.1.0" />
+    Version="0.0.2.0" />
   <!-- When you're ready to publish your extension, you'll need to change the
        Publisher= to match your own identity -->
 
