@@ -2,6 +2,16 @@
 
 This is a [PowerToys CmdPal](https://learn.microsoft.com/en-us/windows/powertoys/command-palette/overview) plugin for generating QR codes quickly and easily.
 
+## Usage
+
+You can use placeholders in your input and they will be expanded in the generated QR code and details view:
+
+- `{ip_local}`: local LAN IPv4 address
+- `{ip_public}`: public IPv4 address (best-effort)
+- `{ip}`: alias for `{ip_local}`
+- `{date}`: current date (locale format)
+- `{time}`: current time (locale format)
+
 ## Screenshots
 
 ![preview1](https://store-images.s-microsoft.com/image/apps.35777.14324835250019108.3f5b4868-01e9-407f-8b8b-3e47db151a9a.ebaa009a-8b02-4763-9e89-e9e3a60b32c7?h=720)

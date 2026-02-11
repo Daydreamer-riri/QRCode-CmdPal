@@ -9,18 +9,20 @@ public partial class QRCodeListItem : ListItem
     public QRCodeListItem(string content, Storage storage)
     : base(new DetailPage(content, storage))
     {
-        Title = content;
-        Subtitle = $"Generate QR Code for \"{content}\"";
+        var expandedContent = PlaceholderExpander.Expand(content);
+
+        Title = expandedContent;
+        Subtitle = $"Generate QR Code for \"{expandedContent}\"";
         Icon = Icons.QRCode;
 
         var _details = new Details()
         {
             Body = $$"""
-            {{content}}
+            {{expandedContent}}
 
             <br>
 
-            {{BuildImageMarkdownContent(content)}}
+            {{BuildImageMarkdownContent(expandedContent)}}
             """,
         };
 

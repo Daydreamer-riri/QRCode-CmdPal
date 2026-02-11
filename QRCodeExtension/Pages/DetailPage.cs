@@ -23,14 +23,15 @@ public partial class DetailPage : ContentPage
     public override IContent[] GetContent()
     {
         _storage.AddHistoryItem(_content);
+        var expandedContent = PlaceholderExpander.Expand(_content);
         return
         [
             new MarkdownContent($$"""
-                {{BuildImageMarkdownContent(_content)}}
+                {{BuildImageMarkdownContent(expandedContent)}}
 
                 <br>
 
-                {{_content}}
+                {{expandedContent}}
                 """),
         ];
     }
